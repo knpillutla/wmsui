@@ -1,0 +1,54 @@
+<div class="maincontainer">
+  <div class="container content">
+    <div style="display: inline-grid;">
+      <label class="title">Warehouse Management System </label>
+      <!-- <label class="subtitle">Angular 6 Application</label> -->
+    </div>
+
+    <div class="fillinTitle"> Continue with </div>
+    <form (ngSubmit)="onSubmit()" #f="ngForm">
+      <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+
+        <div style="display: flex;">
+          <div class="button facebook" (click)="socialSignIn('facebook')">
+            <img src="assets/facebook.png">
+            Facebook
+          </div>
+          <div class="button google" (click)="socialSignIn('google')">
+            <img src="assets/google.png">
+            Google
+          </div>
+        </div>
+        <div class="fillinTitle"> or fill in below fields and become a member </div>
+        <!-- <div class="form-group" *ngIf="isSignUp === true">
+          <label for="name">Username</label>
+          <input type="text" required autocomplete="username" name="name" ngModel class="form-control" id="name">
+        </div> -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" ngModel name="email" required email #email="ngModel" autocomplete="username email" class="form-control"
+            id="email">
+          <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password</label>
+          <input type="password" required name="pwd" ngModel autocomplete="new-password" class="form-control" id="pwd">
+        </div>
+        <div class="form-group" *ngIf="isSignUp === true">
+          <label for="pwd">Confirm Password</label>
+          <input type="password" required name="confirmpwd" ngModel autocomplete="new-password" class="form-control" id="confirmpwd">
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox"> {{checkBoxButtonText}} </label>
+          <a *ngIf="isSignUp === true"> Terms & Conditions</a>
+        </div>
+      </div>
+      <span class="error" *ngIf="errormessage && errormessage.length > 0">{{errormessage}}</span>
+      <button class="submitButton" [disabled]="!f.valid" type="submit">{{submitButtonText}}</button>
+      <label style="float: right; padding: 10px">{{memberText}}
+        <a (click)="ToggleSignup()"> {{toggleText}} </a>
+      </label>
+
+    </form>
+  </div>
+</div>

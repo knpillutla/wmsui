@@ -1,0 +1,11 @@
+<div id="loadingPanel" *ngIf="visible" [style.opacity]="config.backgroundOpacity" [style.backgroundColor]="config.backgroundColor">
+    <div class="spinner medium">
+        <div class="spinner-wrapper">
+            <div class="rotator">
+                <div class="inner-spin"></div>
+                <div class="inner-spin"></div>
+            </div>
+        </div>
+    </div>
+    <div class="loader-text">{{config.loaderText}}</div>
+  </div>

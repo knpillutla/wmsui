@@ -1,0 +1,81 @@
+<div class="maincontainer">
+  <div class="container content">
+    <div style="display: inline-grid;">
+      <label class="title">Reactive UI</label>
+      <label class="subtitle">{{ provider | uppercase}} Sign Up</label>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #f="ngForm">
+      <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+        <div class="fillinTitle"> Please fill below fields to signup </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" disabled [(ngModel)]="email" name="email" email autocomplete="username email" class="form-control"
+            id="email">
+          <!-- <span class="help-block" *ngIf="email && !email.valid && email.touched">Please enter a valid email!</span> -->
+        </div>
+        <div class="form-group" *ngIf="userid">
+          <label for="userid">User Name</label>
+          <input type="text" name="userid" disabled [(ngModel)]="userid" class="form-control" id="userid">
+        </div>
+        <div class="form-group">
+          <label for="busName">Business Name</label>
+          <input type="text" name="busName" ngModel class="form-control" id="busName">
+        </div>
+        <div class="form-group">
+          <label for="name">Location Number</label>
+          <input type="text" name="defLocnNbr" ngModel class="form-control" id="defLocnNbr">
+        </div>
+        <div class="form-group">
+          <label>Name</label>
+          <div class="form-inline">
+            <div class="form-group">
+              <input type="text" required placeholder="First Name" name="firstName" [(ngModel)]="firstName" class="form-control inline"
+                id="firstName">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Middle Name" name="middleName" ngModel class="form-control inline" id="middleName">
+            </div>
+            <div class="form-group">
+              <input type="text" required placeholder="Last Name" name="lastName" ngModel class="form-control inline"
+                id="lastName">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="addr1">Address Line 1</label>
+          <input type="text" name="addr1" ngModel class="form-control" id="addr1">
+        </div>
+        <div class="form-group">
+          <label for="addr2">Address Line 2</label>
+          <input type="text" name="addr2" ngModel class="form-control" id="addr2">
+        </div>
+        <div class="form-group">
+          <label for="addr3">Address Line 3</label>
+          <input type="text" name="addr3" ngModel class="form-control" id="addr3">
+        </div>
+
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" name="city" ngModel class="form-control" id="city">
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <input type="text" name="state" ngModel class="form-control" id="state">
+        </div>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <input type="text" name="country" ngModel class="form-control" id="country">
+        </div>
+        <div class="form-group">
+          <label for="zipcode">Zip Code</label>
+          <input type="number" name="zipCode" ngModel class="form-control" id="zipCode">
+        </div>
+      </div>
+      <span class="error" *ngIf="errormessage && errormessage.length > 0">{{errormessage}}</span>
+      <button class="submitButton" [disabled]="!f.valid" type="submit">Sign Up</button>
+
+
+    </form>
+  </div>
+</div>

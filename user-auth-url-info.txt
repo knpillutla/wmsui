@@ -1,0 +1,47 @@
+
+
+1. create user after signing up either with either google or facebook or userid/pwd. You will get error if user already exist
+(use this to create a new user, if the user exists, you will get an error) or else it will return you the user object with display fields, search fields information. you can use this to display fields on the grid. Also the returned json will have the urls for the crud, currently only listurl is available and it will return you the right url
+create user url(POST): https://user-auth.the3dsoft.com/users/v1/user
+input json:
+{
+	"busName":"XYZ",
+	"defLocnNbr":"3456", 
+	"userName":"u.mary@gmail.com", 
+	"authType":"google", 
+	"authToken":"xiek8484kxdlflwlq", 
+	"firstName":"Uler",
+	"lastName":"Mary",
+	"middleName":"",
+	"addr1":"",
+	"addr2":"",
+	"addr3":"",
+	"city":"NY",
+	"state":"NY",
+	"country":"US",
+	"zipCode":"98383",
+	"locale":"ENGLISH",
+	"userId":"u.mary"
+}
+
+authtoken : google token, facebook token, pwd
+
+
+2. signin url
+second time, sign in url(POST): https://user-auth.the3dsoft.com:443/users/v1/user/signin
+input json:
+{
+"userName":"" // userid
+"authToken":"" //password or token from google or facebook
+}
+
+3. get user information (returns user resource same info as create user) for verification
+https://user-auth.the3dsoft.com/users/v1/user/1
+
+
+4. fyi- other urls (modified to use standard https port, discard t3he old ones. Generally, you will get this info in the json from create user or sign in user itself, so you can use this url to fetch data when the link is clicked)
+https://orderplanner.the3dsoft.com/orderplanner/v1/XYZ/3456/order
+https://inventory.the3dsoft.com/inventory/v1/XYZ/3456/inventory
+
+
+

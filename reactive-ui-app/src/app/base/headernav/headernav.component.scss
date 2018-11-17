@@ -1,0 +1,41 @@
+.navbar-header{
+    margin-left: 50px;
+}
+
+.menu{
+    position: absolute;
+    top: 0px;
+    z-index: 1;
+    padding: 5px 15px;
+    background: blue;
+    color: white;
+    border: none;
+    font-size: 30px;
+    &:focus &:hover &:active{
+        border: none;
+    }
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover {
+    background-color: rgb(199, 131, 4);
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    background-color: rgb(199, 131, 4);
+    opacity: 0.6;
+}
+
+.navbar-inverse {
+    background-color: blue;
+    border-color: blue;
+}

@@ -1,0 +1,25 @@
+.gridcontainer {
+    height: calc(100% - 100px);
+    padding: 0px;
+    margin: 0px 15px;
+}
+
+.grid {
+    width: 100%;
+    height: calc(100vh - 180px);
+}
+
+button.btn.btn-primary {
+    min-width: 100px;
+    margin: 0px 0px 0px 10px;
+}
+
+button.btn.btn-primary {
+    background: blue;
+}
+
+.danger {
+    padding: 10px 2px;
+    display: block;
+    color: red;
+}

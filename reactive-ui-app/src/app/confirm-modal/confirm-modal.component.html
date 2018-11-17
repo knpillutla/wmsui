@@ -1,0 +1,21 @@
+<div class="modal-wrapper">
+  <div class="modal-dialog-inner">
+    <div class="modal-content-inner">
+      <form id="event-form" #eventForm="ngForm">
+        <div class="modal-header">
+          <h4 class="modal-title">{{formTitle}}</h4>
+        </div>
+        <div class="modal-body">
+          <span class="spanmsg">{{Message}}</span>
+        </div>
+        <div *ngIf="errormsg && errormsg.length > 0" class="col-sm-12">
+            <span class="danger">{{errormsg}}</span>
+          </div>
+        <div class="modal-footer">
+          <button type="button" *ngIf="CloseButton" class="btn btn-default" (click)="CloseModal()">{{CloseButton}}</button>
+          <button type="submit" *ngIf="ConfirmButton" (click)="submitForm()" [disabled]="!eventForm.form.valid" class="btn btn-primary">{{ConfirmButton}}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
