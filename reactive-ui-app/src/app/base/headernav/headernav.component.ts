@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { MenuResourceList } from 'src/app/models/userdetails.model';
+import { MenuResourceList, DashboardResource } from 'src/app/models/userdetails.model';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 
@@ -17,12 +17,23 @@ export class HeadernavComponent implements OnInit, OnChanges {
   ngOnInit() { }
 
   ngOnChanges(sc: SimpleChanges) {
-    // (sc, this.MenuItems);
+    console.log(sc, this.MenuItems);
+
   }
 
   MenuClicked(menuitem: MenuResourceList, screen) {
-    this.MenuItemSelected.emit(menuitem.screenResourceList.filter(x => x.screenName === screen));
+    if (menuitem.screenResourceList) {
+      this.MenuItemSelected.emit({ itemtype: 'list', menu: menuitem.screenResourceList.filter(x => x.screenName === screen) });
+    } else if (menuitem.rfScreenResourceList) {
+      this.MenuItemSelected.emit({ itemtype: 'rf', menu: menuitem.rfScreenResourceList.filter(x => x.screenName === screen) });
+    }
   }
+
+  ShowMeDashboard() {
+    this.MenuItemSelected.emit({ itemtype: 'dashboard' });
+  }
+
+
 
   logout() {
     this.userService.LogoutUserData();

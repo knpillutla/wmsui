@@ -15,7 +15,12 @@ export class GridModalComponent implements OnInit {
   formTitle: string;
   Mode: string;
   URL: string;
+  AllFields: FieldList[];
   Fields: FieldList[];
+  AddFields: any[];
+  ViewFields: any[];
+  EditFields: any[];
+  SelectedRow: any;
   ConfirmButton: string;
   CloseButton: string;
   ViewModeOnly: boolean;
@@ -23,6 +28,8 @@ export class GridModalComponent implements OnInit {
   DetailsId: any;
   needRefreshOnClose = false;
   errormsg: '';
+  IsForDetailModal = false;
+  ParentRow: any;
 
   constructor(
     private bsModalRef: BsModalRef, private loader: LoaderService,
@@ -31,12 +38,17 @@ export class GridModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.table(this.Fields);
-    if (this.Mode !== 'Add') {
-      this.gridService.Get(this.URL, this.Id, this.DetailsId).subscribe(
+    if (this.Mode === 'Edit') {
+      this.gridService.Get(this.URL, this.Id).subscribe(
         (data) => {
-          this.Fields.forEach(element => {
-            element.initializeValue = data[element.fieldName] ? data[element.fieldName] : '';
+          this.EditFields.forEach(outer => {
+            this.AllFields.forEach(inner => {
+              if (outer.fieldName === inner.fieldName) {
+                inner.initializeValue = data[inner.fieldName] ? data[inner.fieldName] : '';
+                inner.disableField = outer.disableField === 'Y' ? 'Y' : 'N';
+                this.Fields.push(inner);
+              }
+            });
           });
           this.loader.hide();
         },
@@ -44,10 +56,43 @@ export class GridModalComponent implements OnInit {
           this.errormsg = res.error.errorMsg;
           this.loader.hide();
         });
-    } else {
-      this.Fields.forEach(element => {
-        element.initializeValue = '';
+    } else if (this.Mode === 'Add') {
+      console.table(this.AllFields);
+      console.table(this.AddFields);
+      this.AddFields.forEach(outer => {
+        let isAdded = false;
+        this.AllFields.forEach(inner => {
+          if (outer.fieldName === inner.fieldName) {
+            if (this.IsForDetailModal && outer.useValueFromHdr === 'Y') {
+              inner.initializeValue = this.ParentRow[outer.hdrFieldName];
+              // inner.fieldName = outer.hdrFieldName;
+            } else {
+              inner.initializeValue = outer.defaultValue;
+            }
+
+            inner.hiddenField = outer.hideField === 'Y' ? 'Y' : 'N';
+            inner.disableField = outer.disableField === 'Y' ? 'Y' : 'N';
+            this.Fields.push(inner);
+            isAdded = true;
+          }
+        });
+        if (!isAdded) {
+          outer.initializeValue = outer.defaultValue;
+          this.Fields.push(outer);
+        }
       });
+
+    } else if (this.Mode === 'View') {
+      this.ViewFields.forEach(outer => {
+        this.AllFields.forEach(inner => {
+          if (outer.fieldName === inner.fieldName) {
+            inner.initializeValue = this.SelectedRow[inner.fieldName] ? this.SelectedRow[inner.fieldName] : '';
+            this.Fields.push(inner);
+          }
+        });
+      });
+    } else {
+      console.log('Coming Soon');
     }
   }
 
@@ -56,7 +101,7 @@ export class GridModalComponent implements OnInit {
 
   IsDisabled(field) {
     if (this.Mode === 'Add') {
-      return false;
+      return field.disableField === 'Y' ? true : false;
     } else if (this.Mode === 'Edit') {
       return field.disableField === 'Y' ? true : false;
     } else if (this.Mode === 'View') {
@@ -71,12 +116,26 @@ export class GridModalComponent implements OnInit {
   submitForm() {
     const payload = { ...this.eventForm.value };
     this.Fields.forEach(element => {
-      if (element.disableField === 'Y') {
+      console.log(element);
+      if (element.hiddenField === 'Y' || element.hideField === 'Y' || element.disableField === 'Y') {
         payload[element.fieldName] = element.initializeValue;
       }
+      if (element.fieldDataType === 'date') {
+        payload[element.fieldName] = payload[element.fieldName] + 'T00:00:00';
+      }
+      if (element.fieldDataType === 'datetime' && payload[element.fieldName] && payload[element.fieldName].length <= 16) {
+        payload[element.fieldName] = payload[element.fieldName] + ':00';
+      }
     });
+
+    // Hack For Now, to be removed
+    payload.userId = 'Krishna';
+    if ('deliveryDttm' in payload) {
+      payload['expectedDeliveryDttm'] = payload['deliveryDttm'];
+    }
     console.log(payload);
     if (this.Mode === 'Edit' || this.Mode === 'Add') {
+      console.log(this.URL, this.Id, this.DetailsId);
       this.gridService.Update(this.URL, this.Id, this.DetailsId, payload).subscribe(
         (res) => {
           this.needRefreshOnClose = true;
@@ -88,7 +147,6 @@ export class GridModalComponent implements OnInit {
           this.loader.hide();
         });
     }
-    // this.CloseModal();
   }
 
   formatdate(evnt: any) {

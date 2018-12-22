@@ -20,11 +20,11 @@ export class GridService {
 
 
   // get user details based upon login id
-  Get(url, parentid, dtlId) {
+  Get(url, parentid, dtlId = '') {
     console.log(url, parentid, dtlId);
     this.loader.show();
-    let urlToHit = url.replace('{id}', parentid);
-    urlToHit = urlToHit.replace('{dtlId}', dtlId);
+    const urlToHit = url.replace('{id}', parentid);
+    // urlToHit = urlToHit.replace('{dtlId}', dtlId);
     return this.httpClient.get(urlToHit).map(x => x);
   }
 

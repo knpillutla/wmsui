@@ -6,16 +6,18 @@
 
 .grid {
     width: 100%;
-    height: calc(100vh - 180px);
+    height: calc(100vh - 350px);
 }
 
 button.btn.btn-primary {
     min-width: 100px;
     margin: 0px 0px 0px 10px;
+    background: blue;
 }
 
-button.btn.btn-primary {
-    background: blue;
+button.btn.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .danger {

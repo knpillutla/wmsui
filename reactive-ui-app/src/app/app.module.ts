@@ -34,6 +34,12 @@ import { GridModalComponent } from './grid-list/grid-modal/grid-modal.component'
 import { GridService } from './services/grid.service';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { DetailsModalComponent } from './grid-list/details-modal/details-modal.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { environment } from '../environments/environment';
+import { DetailComponent } from './grid-list/detail/detail.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ConfigurationComponent } from './configuration/configuration.component';
+import { DynamicComponent } from './dynamic/dynamic.component';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -41,11 +47,11 @@ export function getAuthServiceConfigs() {
     [
       {
         id: FacebookLoginProvider.PROVIDER_ID,
-        provider: new FacebookLoginProvider('196401391240067')
+        provider: new FacebookLoginProvider(environment.FacebookProvider)
       },
       {
         id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider('998578465163-9rcglq7d6f8aqqt8a4vmfqalvc83rfiu.apps.googleusercontent.com')
+        provider: new GoogleLoginProvider(environment.GoogleProvider)
       },
     ]);
   return config;
@@ -58,6 +64,8 @@ export function getAuthServiceConfigs() {
 // 1158385204313646
 
 // 196401391240067
+
+// 998578465163-9rcglq7d6f8aqqt8a4vmfqalvc83rfiu.apps.googleusercontent.com
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,7 +78,12 @@ export function getAuthServiceConfigs() {
     HeadernavComponent,
     GridModalComponent,
     ConfirmModalComponent,
-    DetailsModalComponent
+    DetailsModalComponent,
+    DashboardComponent,
+    DetailComponent,
+    UserProfileComponent,
+    ConfigurationComponent,
+    DynamicComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +102,7 @@ export function getAuthServiceConfigs() {
       useFactory: getAuthServiceConfigs
     }, UserService, LoaderService, AuthGuards, AuthServices, AppConstants, LoginService, ListService, GridService
   ],
-  entryComponents: [GridModalComponent, ConfirmModalComponent, DetailsModalComponent],
+  entryComponents: [GridModalComponent, ConfirmModalComponent, DetailsModalComponent, DetailComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

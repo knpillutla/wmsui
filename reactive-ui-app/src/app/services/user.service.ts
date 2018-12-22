@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AuthServices } from '../auth.services';
-import {
-  AuthService,
-  FacebookLoginProvider,
-  GoogleLoginProvider
-} from 'angular-6-social-login';
-import { AppConstants } from '../app.constants';
-import { LoginModel } from '../models/login.model';
 import { SessionStorageService } from 'angular-web-storage';
 
 export interface SignUpDataTempModel {

@@ -396,14 +396,19 @@ label.inline-block+* {
 }
 
 .danger {
-  padding: 10px 2px;
-  display: block;
-  color: red;
+    padding: 10px 2px;
+    display: block;
+    color: red;
 }
 
 button.btn.btn-primary {
-  min-width: 100px;
-  margin: 0px 0px 0px 10px;
-  background: blue;
-  border: rgb(223, 145, 0);
+    min-width: 100px;
+    margin: 0px 0px 0px 10px;
+    background: blue;
+    border: rgb(2, 112, 238);
+}
+
+button.btn.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }

@@ -4,6 +4,11 @@
   <span class="danger">{{errorMessage | json}}</span>
 </div>
 
+<div class="gridcontainer" *ngIf="RFOptions">
+  <h3>No List URL found. Below RF Options found</h3>
+  <span>{{RFOptions | json}}</span>
+</div>
+
 <div class="gridcontainer" *ngIf="columnDefsFlag">
 
   <div style="display:inline-block; width: 100%">
@@ -15,11 +20,17 @@
       <button [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="View()">View</button>
       <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Edit()">Edit</button>
       <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Delete()">Delete</button>
-      <button [disabled]="ShouldDetailDisabled()" type="button" class="btn btn-primary" (click)="OpenDetails()">Details</button>
+      <button *ngIf="ShouldDetailVisible() === true" [disabled]="ShouldDetailDisabled()" type="button" class="btn btn-primary"
+        (click)="OpenDetails()">Details</button>
     </div>
   </div>
   <ag-grid-angular [enableSorting]="true" [enableFilter]="true" rowSelection="multiple" [pagination]="true" class="ag-theme-balham grid"
     [rowData]="rowData" [columnDefs]="columnDefDynamic" (rowSelected)="rowSelected($event)" [enableColResize]="true"
     (gridSizeChanged)="onFirstDataRendered($event)" (firstDataRendered)="onFirstDataRendered($event)">
   </ag-grid-angular>
+
+  <div *ngIf="ShouldDetailVisible() === true && ShouldDetailDisabled() === false">
+    <app-detail [GridOptions]="this.DetailOptions.dtlResources[0]" [Mode]="'Details'" [URL]="" [Id]="selectedId"
+      [AccessType]="AccessType" [ParentRow]="selectedRow"></app-detail>
+  </div>
 </div>

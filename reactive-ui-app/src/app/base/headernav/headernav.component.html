@@ -10,11 +10,30 @@
         <a class="navbar-brand">Warehouse Management System</a>
       </div>
       <ul class="nav navbar-nav">
+        <li routerLink="dashboard" routerLinkActive="active">
+          <a><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+      </ul>
+      <ul class="nav navbar-nav">
         <li class="dropdown" *ngFor="let item of MenuItems">
           <a class="dropdown-toggle" data-toggle="dropdown">{{item.menuName}}
             <span class="caret"></span></a>
-          <ul class="dropdown-menu">
+          <ul *ngIf="item.screenResourceList" class="dropdown-menu">
             <li *ngFor="let screen of item.screenResourceList" (click)="MenuClicked(item, screen.screenName)"><a>{{screen.screenDisplayName}}</a></li>
+          </ul>
+          <ul *ngIf="item.rfScreenResourceList" class="dropdown-menu">
+            <li *ngFor="let screen of item.rfScreenResourceList" (click)="MenuClicked(item, screen.screenName)"><a>{{screen.screenDescription}}</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown">Admin
+            <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li routerLink="profile" routerLinkActive="active">
+              <a>User Profile</a></li>
+            <li routerLink="config" routerLinkActive="active">
+              <a>Configuration</a>
+            </li>
           </ul>
         </li>
 

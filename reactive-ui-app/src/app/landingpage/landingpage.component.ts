@@ -3,16 +3,17 @@ import { AuthService } from 'angular-6-social-login';
 import { Subscription } from 'rxjs';
 
 import { UserService } from '../services/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../loader/loader.service';
 import { AppConstants } from '../app.constants';
 import { LoginService } from '../services/login.service';
-import { UserDetailsModel, MenuResourceList } from '../models/userdetails.model';
+import { UserDetailsModel, MenuResourceList, DashboardResource } from '../models/userdetails.model';
 import { HttpResponse } from '@angular/common/http';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { SessionStorageService } from 'angular-web-storage';
+import { ListService } from '../services/list.service';
 
 @Component({
   selector: 'app-landingpage',
@@ -26,7 +27,6 @@ export class LandingpageComponent implements OnInit, OnDestroy {
   leftMenuopen = true;
   userFullData: UserDetailsModel;
   menuData: MenuResourceList[];
-  gridOptions;
 
   modalRef: BsModalRef;
   items: any[];
@@ -34,9 +34,11 @@ export class LandingpageComponent implements OnInit, OnDestroy {
 
   constructor(private socialAuthService: AuthService,
     private userService: UserService,
+    private listService: ListService,
     private loginservice: LoginService,
     private loader: LoaderService,
     private router: Router,
+    private route: ActivatedRoute,
     private session: SessionStorageService,
     private modalService: BsModalService) {
     this.items = Array(15).fill(0);
@@ -47,7 +49,6 @@ export class LandingpageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.user = this.userService.GetUserDataFromSession();
     const id = this.userService.GetUserDataIdFromSession();
     if (!id) {
       this.router.navigateByUrl('/login');
@@ -64,10 +65,13 @@ export class LandingpageComponent implements OnInit, OnDestroy {
       });
   }
 
-  HeaderMenuClicked(menulistitem: MenuResourceList) {
-    this.gridOptions = menulistitem[0];
-  }
+  HeaderMenuClicked(menulistitem) {
+    this.router.navigate(['dynamic'], { relativeTo: this.route });
+    setTimeout(() => {
+      this.listService.menuSelectedData.next(menulistitem);
+    }, 0);
 
+  }
 
   logout() {
     if (!(this.user.provider && this.user.provider.length > 0)) {

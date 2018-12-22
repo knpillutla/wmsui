@@ -7,7 +7,7 @@
         </div>
         <div class="modal-body">
           <ng-container *ngFor="let field of Fields">
-            <div class="form-group row" style="margin: 6px 0px;" *ngIf="field.hideField === 'N' && field.fieldType === 'dropdown'">
+            <div class="form-group row" style="margin: 6px 0px;" *ngIf="field.hiddenField === 'N' && field.fieldType === 'dropdown'">
               <label class="col-sm-3 col-form-label" for="field.fieldName"> {{field.fieldDisplayName}} </label>
               <div class="col-sm-9">
                 <select class="form-control" [disabled]="IsDisabled(field)" required [(ngModel)]="field.initializeValue"
@@ -18,7 +18,7 @@
                 </select>
               </div>
             </div>
-            <div class="form-group row" style="margin: 6px 0px;" *ngIf="field.hideField === 'N' && (field.fieldType === 'text' || field.fieldType === '')">
+            <div class="form-group row" style="margin: 6px 0px;" *ngIf="field.hiddenField === 'N' && ( !field.fieldType || field.fieldType === 'text' || field.fieldType === '')">
               <label class="col-sm-3 col-form-label" for="field.fieldName"> {{field.fieldDisplayName}} </label>
               <div class="col-sm-9">
                 <input *ngIf="field.fieldDataType === 'string' " type="text" required maxlength="field.fieldLength"

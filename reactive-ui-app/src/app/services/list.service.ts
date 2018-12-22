@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
 import { LoaderService } from '../loader/loader.service';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class ListService {
-
+  public menuSelectedData: Subject<any> = new Subject<any>();
   constructor(private appconstant: AppConstants,
     private loader: LoaderService, private httpclient: HttpClient) { }
 
-    GetDataByUrl(url) {
+  GetDataByUrl(url) {
     this.loader.show();
     // const req = new HttpRequest('GET', url);
     return this.httpclient.get<any>(url).map(x => x);

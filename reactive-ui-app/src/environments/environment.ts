@@ -7,7 +7,9 @@ export const environment = {
   ApiUrlDomain: '',
   loginurl: 'https://the3dsoft.com/users/v1/user/signin',
   SignupUrl: 'https://the3dsoft.com:443/users/v1/user',
-  UserDetailUrl: 'https://the3dsoft.com/users/v1/user/'
+  UserDetailUrl: 'https://the3dsoft.com/users/v1/user/',
+  GoogleProvider: '829933291449-vllt35i1gstpp5mbto59rec5ed62l8o5.apps.googleusercontent.com',
+  FacebookProvider: '196401391240067'
 };
 
 /*

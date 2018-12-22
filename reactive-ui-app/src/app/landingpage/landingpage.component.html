@@ -1,14 +1,7 @@
 <div *ngIf="menuData">
   <app-headernav [MenuItems]="menuData" (MenuItemSelected)="HeaderMenuClicked($event)"></app-headernav>
 </div>
-<div class="right-content" id="main-content" *ngIf="!gridOptions">
-  <div class="container main-container-welcome">
-    <h2 *ngIf="user">Welcome {{user.firstName}} {{user.middleName}} {{user.lastName}} ({{user.userId}})</h2>
-    <h4>Please select any menu option to proceed.</h4>
-  </div>
-</div>
-<div class="right-content" id="main-content" *ngIf="gridOptions">
-  <div class="main-container">
-    <app-grid-list [GridOptions]="gridOptions"></app-grid-list>
-  </div>
+
+<div class="right-content" id="main-content">
+  <router-outlet></router-outlet>
 </div>

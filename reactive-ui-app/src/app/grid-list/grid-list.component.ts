@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ListService } from '../services/list.service';
 import { LoaderService } from '../loader/loader.service';
-import { MenuResourceList, HdrResource, DtlResource, FieldList, ScreenResourceList } from '../models/userdetails.model';
+import { FieldList, ScreenResourceList, DataResource, RfScreenResourceList } from '../models/userdetails.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { GridModalComponent } from './grid-modal/grid-modal.component';
@@ -16,10 +16,11 @@ export interface ColumnsDef {
 }
 
 export interface CRUD {
-  GET: string;
-  PUT: string;
-  POST: string;
-  DELETE: string;
+  GET?: string;
+  PUT?: string;
+  POST?: string;
+  DELETE?: string;
+  SEARCH?: string;
 }
 
 @Component({
@@ -32,32 +33,39 @@ export class GridListComponent implements OnInit, OnChanges {
   errorMessage: string;
   AccessType: string;
   @Input() GridOptions: ScreenResourceList;
-  HeaderOptions: HdrResource;
+  @Input() RFOptions: RfScreenResourceList;
+  HeaderOptions: DataResource;
   HeaderFieldList: FieldList[];
   title: string;
   crudUrls: CRUD;
+  selectedRow: any;
 
   columnDefsFlag = false;
   columnDefDynamic: ColumnsDef[] = [];
   rowData = [];
   selectedId;
 
-  DetailOptions: DtlResource[];
+  DetailOptions: DataResource;
 
   ngOnChanges(sc: SimpleChanges) {
     if (sc.GridOptions) {
-      this.selectedId = undefined;
-      this.columnDefsFlag = undefined;
-      this.SetGridHeaders();
-
-      console.log(this.GridOptions.dtlResources);
-
-      this.DetailOptions = this.GridOptions.dtlResources;
-
+      if (this.GridOptions) {
+        console.log(sc.GridOptions);
+        this.selectedId = undefined;
+        this.columnDefsFlag = undefined;
+        this.SetGridHeaders();
+        this.DetailOptions = this.GridOptions.dataResource;
+      }
+    }
+    if (sc.RFOptions) {
+      console.log(this.RFOptions);
+      console.log(sc.RFOptions);
     }
   }
 
-  constructor(private listservice: ListService, private modalService: BsModalService, private loader: LoaderService) { }
+  constructor(private listservice: ListService,
+    private modalService: BsModalService,
+    private loader: LoaderService) { }
 
   ngOnInit() {
     this.modalService.onHide.subscribe((reason: string) => {
@@ -78,7 +86,9 @@ export class GridListComponent implements OnInit, OnChanges {
       formTitle: 'Add New ' + this.title,
       Mode: 'Add',
       URL: this.crudUrls.POST,
-      Fields: this.HeaderFieldList,
+      AllFields: this.HeaderFieldList,
+      AddFields: this.GridOptions.dataResource.addResourceFieldList,
+      Fields: [],
       ConfirmButton: 'Add',
       CloseButton: 'Cancel',
       ViewModeOnly: false
@@ -91,7 +101,10 @@ export class GridListComponent implements OnInit, OnChanges {
       formTitle: 'View ' + this.title,
       Mode: 'View',
       URL: this.crudUrls.GET,
-      Fields: this.HeaderFieldList,
+      AllFields: this.HeaderFieldList,
+      ViewFields: this.GridOptions.dataResource.viewResourceFieldList,
+      Fields: [],
+      SelectedRow: this.selectedRow,
       CloseButton: 'Close',
       Id: this.selectedId,
       ViewModeOnly: true
@@ -104,7 +117,9 @@ export class GridListComponent implements OnInit, OnChanges {
       formTitle: 'Edit ' + this.title,
       Mode: 'Edit',
       URL: this.crudUrls.PUT,
-      Fields: this.HeaderFieldList,
+      AllFields: this.HeaderFieldList,
+      EditFields: this.GridOptions.dataResource.editResourceFieldList,
+      Fields: [],
       ConfirmButton: 'Update',
       CloseButton: 'Cancel',
       Id: this.selectedId
@@ -127,11 +142,12 @@ export class GridListComponent implements OnInit, OnChanges {
 
   OpenDetails() {
     const initialState = {
-      GridOptions: this.DetailOptions[0],
+      GridOptions: this.DetailOptions.dtlResources[0],
       Mode: 'DETAILS',
       URL: '',
       Id: this.selectedId,
-      AccessType: this.AccessType
+      AccessType: this.AccessType,
+      ParentRow: this.selectedRow
     };
     this.bsModalRef = this.modalService.show(DetailsModalComponent, { initialState });
   }
@@ -141,15 +157,16 @@ export class GridListComponent implements OnInit, OnChanges {
   }
 
   ShouldDetailDisabled() {
-    if (this.DetailOptions && this.DetailOptions.length > 0 && this.selectedId) {
-      return false;
-    }
-    return true;
+    return (this.DetailOptions && this.selectedId) ? false : true;
+  }
+
+  ShouldDetailVisible() {
+    return (this.DetailOptions.dtlResources && this.DetailOptions.dtlResources.length > 0) ? true : false;
   }
 
   rowSelected(data) {
-    const selected = data.api.getSelectedRows()[0];
-    this.selectedId = (selected) ? selected.id : undefined;
+    this.selectedRow = data.api.getSelectedRows()[0];
+    this.selectedId = (this.selectedRow) ? this.selectedRow.id : undefined;
   }
 
   SetGridHeaders() {
@@ -157,15 +174,17 @@ export class GridListComponent implements OnInit, OnChanges {
     this.title = this.GridOptions.screenDisplayName;
     this.AccessType = this.GridOptions.screenAccess;
 
-    this.HeaderOptions = this.GridOptions.hdrResource;
+    this.HeaderOptions = this.GridOptions.dataResource;
     this.HeaderFieldList = this.HeaderOptions.fieldList;
     this.columnDefDynamic.push({
       headerName: 'select',
       field: '',
       checkboxSelection: true
     });
+
+    const listfields = this.HeaderOptions.listFields.split(',');
     this.HeaderFieldList.forEach((element, index) => {
-      if (element.displayOptions.indexOf('list') > -1) {
+      if (listfields.indexOf(element.fieldName) > -1) {
         this.columnDefDynamic.push({
           headerName: element.fieldDisplayName,
           field: element.fieldName
@@ -173,9 +192,8 @@ export class GridListComponent implements OnInit, OnChanges {
       }
     });
     this.GetGridData(this.HeaderOptions.listUrl);
-
     this.crudUrls = {
-      GET: this.HeaderOptions.getRecordUrl,
+      // GET: this.HeaderOptions.,
       PUT: this.HeaderOptions.updateRecordUrl,
       POST: this.HeaderOptions.addRecordUrl,
       DELETE: this.HeaderOptions.deleteRecordUrl

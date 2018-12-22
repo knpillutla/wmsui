@@ -1,9 +1,9 @@
-
 export interface FieldList {
     fieldName: string;
     fieldDisplayName: string;
-    disableField: string;
-    hideField: string;
+    hiddenField: string;
+    isPrimaryField: string;
+    aliasFieldName: string;
     fieldType: string;
     fieldDataType: string;
     fieldLength: string;
@@ -11,46 +11,67 @@ export interface FieldList {
     displayOptions: string;
     initializeValue?: string;
     defaultValue: string;
+    disableField?: string;
+    hideField?: string;
 }
 
-export interface RequestFieldList {
-    fieldName: string;
-    fieldType: string;
-    promptForInput: string;
-}
-
-export interface ActionResourceList {
+export interface RecordActionList {
     actionName: string;
     actionDisplayName: string;
     actionUrl: string;
-    requestFieldList: RequestFieldList[];
+    requestFields: string;
 }
 
-export interface HdrResource {
-    recordName: string;
-    recordDisplayName: string;
+export interface AddResourceFieldList {
+    fieldName: string;
+    hideField: string;
+    defaultValue: any;
+    disableField: string;
+}
+
+export interface ViewResourceFieldList {
+    fieldName: string;
+    disableField: string;
+    hideField: string;
+}
+
+export interface EditResourceFieldList {
+    fieldName: string;
+    disableField: string;
+    hideField: string;
+}
+
+export interface DataResource {
+    name: string;
+    displayName: string;
     searchUrl: string;
     listUrl: string;
-    getRecordUrl: string;
     addRecordUrl: string;
     updateRecordUrl: string;
     deleteRecordUrl: string;
     fieldList: FieldList[];
-    searchFieldList: string[];
-    actionResourceList: ActionResourceList[];
+    searchFields: string;
+    listFields: string;
+    recordActionList: RecordActionList[];
+    dtlResources: DtlResource[];
+    addResourceFieldList: AddResourceFieldList[];
+    viewResourceFieldList: ViewResourceFieldList[];
+    editResourceFieldList: EditResourceFieldList[];
 }
 
 export interface DtlResource {
-    recordName: string;
-    recordDisplayName: string;
+    name: string;
+    displayName: string;
     searchUrl: string;
     listUrl: string;
-    getRecordUrl: string;
     addRecordUrl: string;
     updateRecordUrl: string;
     deleteRecordUrl: string;
     fieldList: FieldList[];
-    searchFieldList: any[];
+    listFields: string;
+    addResourceFieldList: AddResourceFieldList[];
+    viewResourceFieldList: ViewResourceFieldList[];
+    editResourceFieldList: EditResourceFieldList[];
 }
 
 export interface ScreenResourceList {
@@ -59,13 +80,67 @@ export interface ScreenResourceList {
     screenTitle: string;
     screenAccess: string;
     screenType: string;
-    hdrResource: HdrResource;
-    dtlResources: DtlResource[];
+    dataResource: DataResource;
+}
+
+export interface RfFieldResourceList {
+    fieldName: string;
+    fieldType: string;
+    defaultValue: any;
+    fieldDisplayName: string;
+    fieldDataType: string;
+    hideField: string;
+    fieldLength: string;
+    dataUrl: string;
+    dataTriggerErrorMsg: string;
+    userInputNeeded: string;
+    validateInputWithField: string;
+    validationFailedErrorMsg: string;
+    continueInNextScreen: string;
+    inputListToActionUrl: string;
+}
+
+export interface ButtonResource {
+    name: string;
+    displayName: string;
+    confirmationMsg: string;
+    actionUrl: string;
+    inputFieldListToActionUrl: string;
+    resetFieldAfterConfirm: string;
+    exitScreen: string;
+}
+
+export interface RfScreenResourceList {
+    screenName: string;
+    screenDescription: string;
+    screenAccessLevel: string;
+    widthOfScreen: number;
+    heightOfScreen: number;
+    rfFieldResourceList: RfFieldResourceList[];
+    buttonResource: ButtonResource;
 }
 
 export interface MenuResourceList {
     menuName: string;
-    screenResourceList: ScreenResourceList[];
+    screenResourceList?: ScreenResourceList[];
+    menuType: string;
+    rfScreenResourceList?: RfScreenResourceList[];
+}
+
+export interface Tile {
+    name: string;
+    description: string;
+    type: string;
+    url: string;
+}
+
+export interface DashboardResource {
+    screenName: string;
+    screenDisplayName: string;
+    screenTitle: string;
+    screenAccess: string;
+    screenType: string;
+    tiles: Tile[];
 }
 
 export interface UserDetailsModel {
@@ -87,4 +162,5 @@ export interface UserDetailsModel {
     locale: string;
     userId: string;
     menuResourceList: MenuResourceList[];
+    dashboardResource: DashboardResource;
 }
