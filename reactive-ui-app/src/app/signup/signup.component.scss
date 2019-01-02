@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .maincontainer {
     width: 100%;
     height: 100%;
@@ -15,13 +17,13 @@
     margin-bottom: 60px;
     /* margin-right: 400px; */
     padding: 10px 20px 20px 10px;
-    border: 1px dashed blue;
+    border: 1px dashed $main-color;
 
 }
 
 .title {
     font-size: 20px;
-    color: blue;
+    color: $main-color;
     margin: auto;
     padding-top: 10px;
 }
@@ -29,7 +31,7 @@
 .subtitle {
     font-size: 12px;
     font-weight: 100;
-    color: blue;
+    color: $main-color;
     opacity: 0.5
 }
 
@@ -72,7 +74,7 @@ button {
 
 
 .submitButton {
-    background: blue;
+    background: $main-color;
     opacity: 1;
 }
 

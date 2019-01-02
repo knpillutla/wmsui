@@ -21,7 +21,6 @@ export class GridService {
 
   // get user details based upon login id
   Get(url, parentid, dtlId = '') {
-    console.log(url, parentid, dtlId);
     this.loader.show();
     const urlToHit = url.replace('{id}', parentid);
     // urlToHit = urlToHit.replace('{dtlId}', dtlId);
@@ -30,7 +29,6 @@ export class GridService {
 
   // Update based upon id
   Update(url, parentid, dtlId, payload) {
-    console.log(url, parentid, dtlId);
     this.loader.show();
     let urlToHit = url.replace('{id}', parentid);
     urlToHit = urlToHit.replace('{dtlId}', dtlId);
@@ -39,11 +37,15 @@ export class GridService {
 
   // delete based upon id
   Delete(url, parentid, dtlId) {
-    console.log(url, parentid, dtlId);
     this.loader.show();
     let urlToHit = url.replace('{id}', parentid);
     urlToHit = urlToHit.replace('{dtlId}', dtlId);
     return this.httpClient.delete(urlToHit).map(x => x);
+  }
+
+  Search(searchUrl: string, payload: any) {
+    this.loader.show();
+    return this.httpClient.post(searchUrl, payload, { reportProgress: true }).map(x => x);
   }
 
 }

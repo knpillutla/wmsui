@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 nav{
     border-radius: 0px;
 }
@@ -41,7 +43,7 @@ img{
     transition: all 0.3s ease;
     overflow: auto;
     display: block;
-    margin-top: 40px;
+    // margin-top: 40px;
     /* max-height: calc(100vh - 65px); */
     scroll-behavior: smooth;
 }
@@ -68,7 +70,7 @@ img{
   line-height: 14px;
   color: #FFFFFF;
   text-transform: uppercase;
-  background: blue;
+  background: $main-color;
   cursor: pointer;
   opacity: 0;
   visibility: hidden;

@@ -1,0 +1,21 @@
+@import '../../variables.scss';
+
+.searchContainer {
+    display: inline-flex;
+}
+
+.searchButton {
+    min-width: 30px;
+    height: 30px;
+    color: #fff;
+    background-color: $main-color;
+    border: 1px solid #ffffff;
+}
+
+input {
+    height: 30px;
+    padding: 10px;
+    max-width: 200px;
+    border: 2px solid lightgray;
+    margin-right: 5px;
+}

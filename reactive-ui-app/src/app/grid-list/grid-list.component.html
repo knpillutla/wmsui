@@ -10,26 +10,42 @@
 </div>
 
 <div class="gridcontainer" *ngIf="columnDefsFlag">
-
+  <h4>{{title}}</h4>
   <div style="display:inline-block; width: 100%">
-    <div style="float:left">
-      <h4>{{title}}</h4>
+    <div class="leftSearchBox">
+      <app-search *ngIf="SearchFieldListOptions" [SearchURL]="this.HeaderOptions.searchUrl" [SearchFields]="SearchFieldListOptions"
+        [AllFields]="this.HeaderFieldList" (searchResult)="searchResult($event)" (ResetFilter)="ResetFilter($event)"></app-search>
     </div>
-    <div class="btn-inline" style="float:right">
-      <button *ngIf="CanWrite() === true" type="button" class="btn btn-primary" (click)="AddNew()">Add New</button>
-      <button [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="View()">View</button>
-      <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Edit()">Edit</button>
-      <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Delete()">Delete</button>
-      <button *ngIf="ShouldDetailVisible() === true" [disabled]="ShouldDetailDisabled()" type="button" class="btn btn-primary"
-        (click)="OpenDetails()">Details</button>
+    <div class="btn-inline" style="float:right; display: inline-flex;">
+      <div>
+        <button *ngIf="CanWrite() === true" type="button" class="btn btn-primary" (click)="AddNew()">Add New</button>
+        <button [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="View()">View</button>
+        <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Edit()">Edit</button>
+        <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Delete()">Delete</button>
+        <button *ngIf="ShouldDetailVisible() === true" [disabled]="ShouldDetailDisabled()" type="button" class="btn btn-primary"
+          (click)="OpenDetails()">Details</button>
+      </div>
+      <div class="dropdown" style="display: inline-flex;">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Actions
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item">Action 1</a>
+          <a class="dropdown-item">Action 2</a>
+          <a class="dropdown-item">Action 3</a>
+        </div>
+      </div>
     </div>
   </div>
-  <ag-grid-angular [enableSorting]="true" [enableFilter]="true" rowSelection="multiple" [pagination]="true" class="ag-theme-balham grid"
+
+  <ag-grid-angular [enableSorting]="true" [enableFilter]="true" rowSelection="single" [pagination]="true" class="ag-theme-balham grid"
     [rowData]="rowData" [columnDefs]="columnDefDynamic" (rowSelected)="rowSelected($event)" [enableColResize]="true"
     (gridSizeChanged)="onFirstDataRendered($event)" (firstDataRendered)="onFirstDataRendered($event)">
   </ag-grid-angular>
 
   <div *ngIf="ShouldDetailVisible() === true && ShouldDetailDisabled() === false">
+    <hr>
     <app-detail [GridOptions]="this.DetailOptions.dtlResources[0]" [Mode]="'Details'" [URL]="" [Id]="selectedId"
       [AccessType]="AccessType" [ParentRow]="selectedRow"></app-detail>
   </div>

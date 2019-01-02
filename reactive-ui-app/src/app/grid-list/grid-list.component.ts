@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ListService } from '../services/list.service';
 import { LoaderService } from '../loader/loader.service';
-import { FieldList, ScreenResourceList, DataResource, RfScreenResourceList } from '../models/userdetails.model';
+import { FieldList, ScreenResourceList, DataResource, RfScreenResourceList, SearchFieldList } from '../models/userdetails.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { GridModalComponent } from './grid-modal/grid-modal.component';
@@ -44,6 +44,9 @@ export class GridListComponent implements OnInit, OnChanges {
   columnDefDynamic: ColumnsDef[] = [];
   rowData = [];
   selectedId;
+  masterData: any[];
+
+  SearchFieldListOptions: SearchFieldList[];
 
   DetailOptions: DataResource;
 
@@ -53,13 +56,14 @@ export class GridListComponent implements OnInit, OnChanges {
         console.log(sc.GridOptions);
         this.selectedId = undefined;
         this.columnDefsFlag = undefined;
+        this.SearchFieldListOptions = undefined;
         this.SetGridHeaders();
         this.DetailOptions = this.GridOptions.dataResource;
       }
     }
     if (sc.RFOptions) {
-      console.log(this.RFOptions);
-      console.log(sc.RFOptions);
+      // console.log(this.RFOptions);
+      // console.log(sc.RFOptions);
     }
   }
 
@@ -176,11 +180,11 @@ export class GridListComponent implements OnInit, OnChanges {
 
     this.HeaderOptions = this.GridOptions.dataResource;
     this.HeaderFieldList = this.HeaderOptions.fieldList;
-    this.columnDefDynamic.push({
-      headerName: 'select',
-      field: '',
-      checkboxSelection: true
-    });
+    // this.columnDefDynamic.push({
+    //   headerName: 'select',
+    //   field: '',
+    //   checkboxSelection: true
+    // });
 
     const listfields = this.HeaderOptions.listFields.split(',');
     this.HeaderFieldList.forEach((element, index) => {
@@ -198,6 +202,8 @@ export class GridListComponent implements OnInit, OnChanges {
       POST: this.HeaderOptions.addRecordUrl,
       DELETE: this.HeaderOptions.deleteRecordUrl
     };
+    this.SearchFieldListOptions = this.HeaderOptions.searchFieldList;
+    console.log(this.SearchFieldListOptions);
   }
 
   onFirstDataRendered(params) {
@@ -214,7 +220,7 @@ export class GridListComponent implements OnInit, OnChanges {
       (data: any) => {
         if (data) {
           this.rowData = data;
-          console.log(this.rowData);
+          this.masterData = data;
           this.columnDefsFlag = true;
           this.loader.hide();
         }
@@ -223,6 +229,27 @@ export class GridListComponent implements OnInit, OnChanges {
         this.errorMessage = error;
         this.loader.hide();
       });
+  }
+
+  searchResult(list: any[]) {
+    console.log(list);
+    this.loader.show();
+    this.columnDefsFlag = false;
+    setTimeout(() => {
+      this.rowData = list;
+      this.columnDefsFlag = true;
+      this.loader.hide();
+    }, 0);
+  }
+
+  ResetFilter() {
+    this.loader.show();
+    this.columnDefsFlag = false;
+    setTimeout(() => {
+      this.rowData = this.masterData;
+      this.columnDefsFlag = true;
+      this.loader.hide();
+    }, 0);
   }
 
 }

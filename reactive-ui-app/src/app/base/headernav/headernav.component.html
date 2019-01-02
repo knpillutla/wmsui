@@ -21,7 +21,7 @@
             <li *ngFor="let screen of item.screenResourceList" (click)="MenuClicked(item, screen.screenName)"><a>{{screen.screenDisplayName}}</a></li>
           </ul>
           <ul *ngIf="item.rfScreenResourceList" class="dropdown-menu">
-            <li *ngFor="let screen of item.rfScreenResourceList" (click)="MenuClicked(item, screen.screenName)"><a>{{screen.screenDescription}}</a></li>
+            <li *ngFor="let screen of item.rfScreenResourceList" (click)="MenuClicked(item, screen.screenName)"><a>{{screen.screenDisplayName}}</a></li>
           </ul>
         </li>
 

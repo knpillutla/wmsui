@@ -21,13 +21,10 @@ export class DetailsModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.GridOptions);
     if (this.GridOptions) {
       this.showContent = true;
     }
-
   }
-
 
   Close() {
     this.bsModalRef.hide();

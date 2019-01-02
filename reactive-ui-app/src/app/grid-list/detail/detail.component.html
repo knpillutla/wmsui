@@ -1,21 +1,21 @@
 <div class="main" *ngIf="GridOptions">
-  <div *ngIf="errorMessage" class="errorMessage">{{errorMessage | json}}</div>
-  <div class="gridcontainer" *ngIf="columnDefDynamic">
+  <div *ngIf=" errorMessage" class="errorMessage">{{errorMessage | json}}</div>
+<div class="gridcontainer" *ngIf="columnDefDynamic">
 
-    <div style="display:inline-block; width: 100%">
-      <div style="float:left">
-        <h4>Details</h4>
-      </div>
-      <div class="btn-inline" style="float:right">
-        <button *ngIf="CanWrite() === true" type="button" class="btn btn-primary" (click)="AddNew()">Add New</button>
-        <button [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="View()">View</button>
-        <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Edit()">Edit</button>
-        <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Delete()">Delete</button>
-      </div>
+  <div style="display:inline-block; width: 100%">
+    <div style="float:left">
+      <h4>Details</h4>
     </div>
-    <ag-grid-angular [enableSorting]="true" [enableFilter]="true" rowSelection="multiple" [pagination]="true" class="ag-theme-balham grid"
-      [rowData]="rowData" [columnDefs]="columnDefDynamic" (rowSelected)="rowSelected($event)" [enableColResize]="true"
-      (gridSizeChanged)="onFirstDataRendered($event)" (firstDataRendered)="onFirstDataRendered($event)">
-    </ag-grid-angular>
+    <div class="btn-inline" style="float:right">
+      <button *ngIf="CanWrite() === true" type="button" class="btn btn-primary" (click)="AddNew()">Add New</button>
+      <button [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="View()">View</button>
+      <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Edit()">Edit</button>
+      <button *ngIf="CanWrite() === true" [disabled]="ShouldDisabled()" type="button" class="btn btn-primary" (click)="Delete()">Delete</button>
+    </div>
   </div>
+  <ag-grid-angular [enableSorting]="true" [enableFilter]="true" rowSelection="multiple" [pagination]="true" class="ag-theme-balham grid"
+    [rowData]="rowData" [columnDefs]="columnDefDynamic" (rowSelected)="rowSelected($event)" [enableColResize]="true"
+    (gridSizeChanged)="onFirstDataRendered($event)" (firstDataRendered)="onFirstDataRendered($event)" (gridReady)="onGridReady($event)">
+  </ag-grid-angular>
+</div>
 </div>

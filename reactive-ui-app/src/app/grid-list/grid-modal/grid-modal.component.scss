@@ -1,3 +1,4 @@
+@import '../../../variables.scss';
 .modal-wrapper {
     position: fixed;
     left: 0;
@@ -24,7 +25,7 @@
     max-height: 100vh;
     .modal-header {
         padding: 5px 0 15px;
-        color: blue;
+        color: $main-color;
         font-size: 20px;
         line-height: 24px;
         border-bottom: 1px solid #AAAAAA;
@@ -53,9 +54,9 @@
                 color: #666666;
             }
             &.btn-primary {
-                border: 1px solid blue;
+                border: 1px solid $main-color;
                 color: #FFFFFF;
-                background-color: blue;
+                background-color: $main-color;
                 margin-left: 10px;
             }
         }
@@ -193,8 +194,8 @@
             line-height: 14px;
         }
         input[type="checkbox"]:checked+label {
-            background-color: blue;
-            border-color: blue;
+            background-color: $main-color;
+            border-color: $main-color;
             color: #FFFFFF !important;
         }
         .repeat-text {
@@ -372,8 +373,8 @@ label.inline-block+* {
         content: "";
         width: 5px;
         height: 10px;
-        border-bottom: 2px solid blue;
-        border-right: 2px solid blue;
+        border-bottom: 2px solid $main-color;
+        border-right: 2px solid $main-color;
         display: inline-block;
         transform: rotate(45deg);
         position: absolute;
@@ -404,11 +405,15 @@ label.inline-block+* {
 button.btn.btn-primary {
     min-width: 100px;
     margin: 0px 0px 0px 10px;
-    background: blue;
-    border: rgb(2, 112, 238);
+    background: $main-color;
+    border: $main-color;
 }
 
 button.btn.btn-primary:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+.requiredRed {
+    color: red;
 }

@@ -3,6 +3,7 @@ import { FieldList } from 'src/app/models/userdetails.model';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { GridService } from 'src/app/services/grid.service';
 import { LoaderService } from 'src/app/loader/loader.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-grid-modal',
@@ -11,7 +12,7 @@ import { LoaderService } from 'src/app/loader/loader.service';
 })
 export class GridModalComponent implements OnInit {
   @ViewChild('eventForm') eventForm: any;
-
+  customInvalid = false;
   formTitle: string;
   Mode: string;
   URL: string;
@@ -27,13 +28,14 @@ export class GridModalComponent implements OnInit {
   Id: any;
   DetailsId: any;
   needRefreshOnClose = false;
-  errormsg: '';
+  errormsg: string;
   IsForDetailModal = false;
   ParentRow: any;
+  validationMessage: string;
 
   constructor(
     private bsModalRef: BsModalRef, private loader: LoaderService,
-    private gridService: GridService
+    private gridService: GridService, private toastrService: ToastrService
   ) {
   }
 
@@ -96,7 +98,16 @@ export class GridModalComponent implements OnInit {
     }
   }
 
-  titleCharacterLength(len) {
+  titleCharacterLength(evnt: any, field: FieldList) {
+    const value = evnt.target.value;
+    if (value && field && field.fieldLength) {
+      if (value.length > field.fieldLength) {
+        console.log(field.fieldLength);
+        field.ValidationMessage = 'Max ' + field.fieldLength + ' characters allowed';
+        this.customInvalid = true;
+      }
+    }
+    this.customInvalid = false;
   }
 
   IsDisabled(field) {
@@ -116,7 +127,6 @@ export class GridModalComponent implements OnInit {
   submitForm() {
     const payload = { ...this.eventForm.value };
     this.Fields.forEach(element => {
-      console.log(element);
       if (element.hiddenField === 'Y' || element.hideField === 'Y' || element.disableField === 'Y') {
         payload[element.fieldName] = element.initializeValue;
       }
@@ -135,14 +145,15 @@ export class GridModalComponent implements OnInit {
     }
     console.log(payload);
     if (this.Mode === 'Edit' || this.Mode === 'Add') {
-      console.log(this.URL, this.Id, this.DetailsId);
       this.gridService.Update(this.URL, this.Id, this.DetailsId, payload).subscribe(
         (res) => {
           this.needRefreshOnClose = true;
           this.loader.hide();
+          this.toastrService.success('Success', this.Mode + 'ed Successfully.');
           this.CloseModal();
         },
         (res) => {
+          this.toastrService.error('Error', res.error.errorMsg);
           this.errormsg = res.error.errorMsg;
           this.loader.hide();
         });

@@ -19,13 +19,17 @@
               </div>
             </div>
             <div class="form-group row" style="margin: 6px 0px;" *ngIf="field.hiddenField === 'N' && ( !field.fieldType || field.fieldType === 'text' || field.fieldType === '')">
-              <label class="col-sm-3 col-form-label" for="field.fieldName"> {{field.fieldDisplayName}} </label>
+              <label class="col-sm-3 col-form-label" for="field.fieldName"> {{field.fieldDisplayName}} <span class="requiredRed">*</span></label>
+
               <div class="col-sm-9">
                 <input *ngIf="field.fieldDataType === 'string' " type="text" required maxlength="field.fieldLength"
-                  autocomplete="off" class="form-control" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
-                  [name]="field.fieldName">
+                  autocomplete="off" class="form-control" (input)="titleCharacterLength($event, field)" [disabled]="IsDisabled(field)"
+                  [(ngModel)]="field.initializeValue" [name]="field.fieldName">
+                <span *ngIf="field.fieldDataType === 'string' && field.ValidationMessage && field.ValidationMessage.length > 0"
+                  class="danger">{{field.ValidationMessage}}</span>
+
                 <input *ngIf="field.fieldDataType === 'int' " [disabled]="IsDisabled(field)" [(ngModel)]="+field.initializeValue"
-                  type="number" required class="form-control" (input)="titleCharacterLength(field.fieldLength)" [name]="field.fieldName">
+                  type="number" required class="form-control" [name]="field.fieldName">
                 <input *ngIf="field.fieldDataType === 'datetime'" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
                   type="datetime-local" required class="form-control" [name]="field.fieldName">
                 <input *ngIf="field.fieldDataType === 'date'" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
@@ -42,7 +46,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" *ngIf="CloseButton" class="btn btn-default" (click)="CloseModal()">{{CloseButton}}</button>
-          <button type="submit" *ngIf="ConfirmButton" (click)="submitForm()" [disabled]="!eventForm.form.valid" class="btn btn-primary">{{ConfirmButton}}</button>
+          <button type="submit" [disabled]="eventForm.invalid || customInvalid" *ngIf="ConfirmButton" (click)="submitForm()" [disabled]="!eventForm.form.valid" class="btn btn-primary">{{ConfirmButton}}</button>
         </div>
       </form>
     </div>

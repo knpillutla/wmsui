@@ -1,0 +1,42 @@
+<div class="container boxContainer">
+  <h3>{{this.RFOptions.screenDisplayName}}</h3>
+  <div class="fieldBox" *ngFor="let field of Fields">
+    <div class="form-group row" style="margin: 6px 0px;" *ngIf="ShowDDL(field) === true">
+      <label class="col-sm-3 col-form-label" for="field.fieldName"> {{field.fieldDisplayName}} </label>
+      <div class="col-sm-9">
+        <select class="form-control" [disabled]="IsDisabled(field)" required [(ngModel)]="field.initializeValue" [name]="field.fieldName">
+          <option *ngFor="let item of field.allowedValues.split(',')" [selected]="item === 'Y'" [ngValue]="item">
+            {{item}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row" style="margin: 6px 0px;" *ngIf="ShowTxtBox(field) === true">
+      <label class="col-sm-3 col-form-label" for="field.fieldName"> {{field.fieldDisplayName}} </label>
+      <div class="col-sm-9">
+        <input *ngIf="!field.fieldDataType || field.fieldDataType === 'string' || field.fieldDataType === '' " type="text"
+          required maxlength="field.fieldLength" autocomplete="off" class="form-control" [disabled]="IsDisabled(field)"
+          [(ngModel)]="field.initializeValue" [name]="field.fieldName">
+        <input *ngIf="field.fieldDataType === 'int' " [disabled]="IsDisabled(field)" [(ngModel)]="+field.initializeValue"
+          type="number" required class="form-control" (input)="titleCharacterLength(field.fieldLength)" [name]="field.fieldName">
+        <input *ngIf="field.fieldDataType === 'numeric' " [disabled]="IsDisabled(field)" [(ngModel)]="+field.initializeValue"
+          type="number" required class="form-control" (input)="titleCharacterLength(field.fieldLength)" [name]="field.fieldName">
+        <input *ngIf="field.fieldDataType === 'datetime'" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
+          type="datetime-local" required class="form-control" [name]="field.fieldName">
+        <input *ngIf="field.fieldDataType === 'date'" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
+          type="date" required class="form-control" [name]="field.fieldName" (change)="formatdate($event)">
+        <input *ngIf="field.fieldDataType === 'time'" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
+          type="time" required class="form-control" [name]="field.fieldName">
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="errormsg && errormsg.length > 0" class="col-sm-12">
+    <span class="danger">{{errormsg}}</span>
+  </div>
+
+  <hr>
+  <div class="btn-inline" style="float:right; display: inline-flex;">
+    <button *ngFor="let button of Buttons" type="button" class="btn btn-primary" (click)="ButtonClicked(button)">{{button.displayName}}</button>
+  </div>
+</div>

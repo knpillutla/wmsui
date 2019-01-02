@@ -6,6 +6,7 @@ import { GridModalComponent } from '../grid-modal/grid-modal.component';
 import { ConfirmModalComponent } from '../../confirm-modal/confirm-modal.component';
 import * as BsModalRefTemp from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 
 export interface ColumnsDef {
   headerName: string;
@@ -45,8 +46,9 @@ export class DetailComponent implements OnInit, OnChanges {
   selectedId;
   DetailOptions: DtlResource[];
   selectedRow: any;
+  private gridApi;
 
-  constructor(private listservice: ListService,
+  constructor(private listservice: ListService, private toasterService: ToastrService,
     private modalService: BsModalService, private loader: LoaderService) {
   }
 
@@ -62,6 +64,9 @@ export class DetailComponent implements OnInit, OnChanges {
     this.selectedId = undefined;
     this.columnDefsFlag = undefined;
     this.SetGridHeaders();
+    setTimeout(() => {
+      this.sizeToFit();
+    }, 200);
   }
 
   GetGridData(url, id) {
@@ -92,11 +97,11 @@ export class DetailComponent implements OnInit, OnChanges {
     this.columnDefDynamic = [];
 
     this.HeaderFieldList = this.GridOptions.fieldList;
-    this.columnDefDynamic.push({
-      headerName: 'select',
-      field: '',
-      checkboxSelection: true
-    });
+    // this.columnDefDynamic.push({
+    //   headerName: 'select',
+    //   field: '',
+    //   checkboxSelection: true
+    // });
 
     const listfields = this.GridOptions.listFields.split(',');
     this.HeaderFieldList.forEach((element, index) => {
@@ -197,5 +202,13 @@ export class DetailComponent implements OnInit, OnChanges {
     params.api.sizeColumnsToFit();
   }
 
+  sizeToFit() {
+    if (this.gridApi) {
+      this.gridApi.sizeColumnsToFit();
+    }
+  }
+  onGridReady(params) {
+    this.gridApi = params.api;
+  }
 
 }

@@ -1,0 +1,34 @@
+<div class="searchContainer">
+  <!-- <h4>Search</h4> -->
+  <form id="event-form" #eventForm="ngForm" style="display:inline-flex;">
+    <ng-container *ngFor="let field of Fields">
+      <!-- <div class="form-group row" style="margin: 6px 0px;" *ngIf="field.hiddenField === 'N' && field.fieldType === 'dropdown'">
+      <label class="col-sm-3 col-form-label" for="field.fieldName"> {{field.fieldDisplayName}} </label>
+      <div class="col-sm-9">
+        <select class="form-control" [disabled]="IsDisabled(field)" required [(ngModel)]="field.initializeValue" [name]="field.fieldName">
+          <option *ngFor="let item of field.allowedValues.split(',')" [selected]="item === 'Y'" [ngValue]="item">
+            {{item}}
+          </option>
+        </select>
+      </div>
+    </div> -->
+      <div *ngIf="field.hiddenField === 'N' && ( !field.fieldType || field.fieldType === 'text' || field.fieldType === '')">
+        <div>
+          <input *ngIf="field.fieldDataType === 'string' " type="text" maxlength="field.fieldLength" autocomplete="off"
+            [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue" [name]="field.fieldName" placeholder="Search By {{field.fieldDisplayName}}">
+          <input *ngIf="field.fieldDataType === 'int' " [disabled]="IsDisabled(field)" [(ngModel)]="+field.initializeValue"
+            type="number" (input)="titleCharacterLength(field.fieldLength)" [name]="field.fieldName" placeholder="Search By {{field.fieldDisplayName}}">
+          <input *ngIf="field.fieldDataType === 'datetime'" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
+            type="datetime-local" [name]="field.fieldName" placeholder="Search By {{field.fieldDisplayName}}">
+          <input *ngIf="field.fieldDataType === 'date'" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
+            type="date" [name]="field.fieldName" (change)="formatdate($event)" placeholder="Search By {{field.fieldDisplayName}}">
+          <input *ngIf="field.fieldDataType === 'time'" [disabled]="IsDisabled(field)" [(ngModel)]="field.initializeValue"
+            type="time" [name]="field.fieldName" placeholder="Search By {{field.fieldDisplayName}}">
+        </div>
+      </div>
+
+    </ng-container>
+  </form>
+  <button class="searchButton" type="submit" (click)="Search()">Search</button>
+  <button class="searchButton" (click)="Reset()">Reset</button>
+</div>

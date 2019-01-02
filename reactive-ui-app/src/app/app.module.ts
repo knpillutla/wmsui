@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +44,8 @@ import { DetailComponent } from './grid-list/detail/detail.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { DynamicComponent } from './dynamic/dynamic.component';
+import { SearchComponent } from './search/search.component';
+import { RfDisplayComponent } from './rf-display/rf-display.component';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -83,7 +89,9 @@ export function getAuthServiceConfigs() {
     DetailComponent,
     UserProfileComponent,
     ConfigurationComponent,
-    DynamicComponent
+    DynamicComponent,
+    SearchComponent,
+    RfDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +102,9 @@ export function getAuthServiceConfigs() {
     AgGridModule.withComponents([]),
     AngularWebStorageModule,
     ModalModule.forRoot(),
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({ timeOut: 5000 }), // ToastrModule added,
   ],
   providers: [
     {

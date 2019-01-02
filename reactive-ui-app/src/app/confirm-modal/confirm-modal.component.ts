@@ -36,7 +36,6 @@ export class ConfirmModalComponent implements OnInit {
 
   submitForm() {
     if (this.Mode === 'DELETE') {
-      console.log(this.URL, this.Id, this.DetailsId);
       this.gridService.Delete(this.URL, this.Id, this.DetailsId).subscribe(
         (data) => {
           this.needRefreshOnClose = true;

@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .gridcontainer {
     height: calc(100% - 100px);
     padding: 0px;
@@ -6,13 +8,16 @@
 
 .grid {
     width: 100%;
-    height: calc(100vh - 350px);
+    height: calc(100vh - 355px);
 }
 
 button.btn.btn-primary {
-    min-width: 100px;
-    margin: 0px 0px 0px 10px;
-    background: blue;
+    min-width: 60px;
+    /* margin: 0px 0px 0px 10px; */
+    border-radius: 0px;
+    background: $main-color;
+    padding: 5px 10px;
+    border: 1px solid;
 }
 
 button.btn.btn-primary:disabled {
@@ -24,4 +29,25 @@ button.btn.btn-primary:disabled {
     padding: 10px 2px;
     display: block;
     color: red;
+}
+
+.leftSearchBox {
+    float: left; // border: 1px solid $main-color;
+    padding: 0px 10px 0px 0px;
+}
+
+.dropdown-menu {
+    left: -93px; // display: grid;
+    a {
+        padding: 10px;
+    }
+    a:hover {
+        background: $main-color;
+        text-decoration: none;
+        color: #fff;
+    }
+}
+
+.open>.dropdown-menu {
+    display: grid;
 }

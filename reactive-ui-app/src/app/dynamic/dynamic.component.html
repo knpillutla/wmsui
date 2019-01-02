@@ -1,6 +1,6 @@
-<div class="container main-container-welcome" *ngIf="!gridOptions">
+<div class="container main-container-welcome" *ngIf="!gridOptions && !rfOptions">
   <h2 *ngIf=" user">Welcome {{user.firstName}}
-  {{user.middleName}} {{user.lastName}} ({{user.userId}})</h2>
+    {{user.middleName}} {{user.lastName}} ({{user.userId}})</h2>
   <h4>Please select any menu option to proceed.</h4>
 </div>
 
@@ -9,5 +9,7 @@
 </div>
 
 <div class="main-container" *ngIf="rfOptions">
-  <app-grid-list [GridOptions]="gridOptions" [RFOptions]="rfOptions"></app-grid-list>
+  <!-- <app-grid-list [GridOptions]="gridOptions" [RFOptions]="rfOptions"></app-grid-list> -->
+
+  <app-rf-display [RFOptions]="rfOptions"></app-rf-display>
 </div>

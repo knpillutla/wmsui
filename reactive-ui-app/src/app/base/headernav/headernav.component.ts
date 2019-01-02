@@ -16,10 +16,7 @@ export class HeadernavComponent implements OnInit, OnChanges {
 
   ngOnInit() { }
 
-  ngOnChanges(sc: SimpleChanges) {
-    console.log(sc, this.MenuItems);
-
-  }
+  ngOnChanges(sc: SimpleChanges) { }
 
   MenuClicked(menuitem: MenuResourceList, screen) {
     if (menuitem.screenResourceList) {

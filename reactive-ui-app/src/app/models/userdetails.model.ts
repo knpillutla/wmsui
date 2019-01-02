@@ -13,6 +13,7 @@ export interface FieldList {
     defaultValue: string;
     disableField?: string;
     hideField?: string;
+    ValidationMessage?: string;
 }
 
 export interface RecordActionList {
@@ -27,6 +28,9 @@ export interface AddResourceFieldList {
     hideField: string;
     defaultValue: any;
     disableField: string;
+    useValueFromHdr: string;
+    hdrFieldName: string;
+    mandatoryField: string;
 }
 
 export interface ViewResourceFieldList {
@@ -39,6 +43,13 @@ export interface EditResourceFieldList {
     fieldName: string;
     disableField: string;
     hideField: string;
+    mandatoryField: string;
+}
+
+export interface SearchFieldList {
+    fieldName: string;
+    hideField: string;
+    defaultValue: string;
 }
 
 export interface DataResource {
@@ -53,10 +64,12 @@ export interface DataResource {
     searchFields: string;
     listFields: string;
     recordActionList: RecordActionList[];
+    primaryDtlResource: PrimaryDtlResource;
     dtlResources: DtlResource[];
     addResourceFieldList: AddResourceFieldList[];
     viewResourceFieldList: ViewResourceFieldList[];
     editResourceFieldList: EditResourceFieldList[];
+    searchFieldList: SearchFieldList[];
 }
 
 export interface DtlResource {
@@ -72,6 +85,23 @@ export interface DtlResource {
     addResourceFieldList: AddResourceFieldList[];
     viewResourceFieldList: ViewResourceFieldList[];
     editResourceFieldList: EditResourceFieldList[];
+    hdrDisplayFields: string;
+}
+
+export interface PrimaryDtlResource {
+    name: string;
+    displayName: string;
+    searchUrl: string;
+    listUrl: string;
+    addRecordUrl: string;
+    updateRecordUrl: string;
+    deleteRecordUrl: string;
+    fieldList: FieldList[];
+    listFields: string;
+    addResourceFieldList: AddResourceFieldList[];
+    viewResourceFieldList: ViewResourceFieldList[];
+    editResourceFieldList: EditResourceFieldList[];
+    hdrDisplayFields: string;
 }
 
 export interface ScreenResourceList {
@@ -98,6 +128,7 @@ export interface RfFieldResourceList {
     validationFailedErrorMsg: string;
     continueInNextScreen: string;
     inputListToActionUrl: string;
+    initializeValue?: any;
 }
 
 export interface ButtonResource {
@@ -114,10 +145,14 @@ export interface RfScreenResourceList {
     screenName: string;
     screenDescription: string;
     screenAccessLevel: string;
+    screenDisplayName: string;
+    screenTitle: string;
+    screenAccess: string;
+    screenType: string;
     widthOfScreen: number;
     heightOfScreen: number;
     rfFieldResourceList: RfFieldResourceList[];
-    buttonResource: ButtonResource;
+    buttonResources: ButtonResource[];
 }
 
 export interface MenuResourceList {
@@ -160,6 +195,9 @@ export interface UserDetailsModel {
     country: string;
     zipCode: string;
     locale: string;
+    theme: string;
+    menuType: string;
+    userType: string;
     userId: string;
     menuResourceList: MenuResourceList[];
     dashboardResource: DashboardResource;

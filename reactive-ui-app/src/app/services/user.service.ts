@@ -24,8 +24,6 @@ export class UserService {
     this.sessionService.set('LOGIN', data, this.timeout, 's');
   }
   GetUserDataFromSession() {
-    console.log(this.sessionService.get('LOGIN'));
-    console.log(this.sessionService.get('LOGINSOCIAL'));
     return this.sessionService.get('LOGIN');
   }
 

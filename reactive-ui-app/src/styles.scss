@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import './variables.scss';
+@import 'node_modules/ngx-toastr/toastr.css';
 
 *::-webkit-scrollbar {
     width: 11px;
@@ -20,14 +23,14 @@
 }
 
 *::-webkit-scrollbar-thumb {
-    background: blue;
+    background: $main-color;
     border-radius: 20px;
     border-left: 2.5px solid #fff;
     border-right: 2.5px solid #fff;
 }
 
 *::-webkit-scrollbar-thumb:horizontal {
-    background: blue;
+    background: $main-color;
     border-radius: 20px;
     border-top: 2.5px solid #fff;
     border-bottom: 2.5px solid #fff;
@@ -42,7 +45,7 @@
 }
 
 body {
-    background-color:transparent;
+    background-color: transparent;
     font-family: Roboto, sans-serif; // overflow: hidden;
 }
 
@@ -59,32 +62,31 @@ body {
 }
 
 .modal-backdrop {
-  background: rgba(255, 255, 255, 0.7);
-  &.in {
-    filter: alpha(opacity=100);
-    opacity: 1;
-  }
+    background: rgba(255, 255, 255, 0.7);
+    &.in {
+        filter: alpha(opacity=100);
+        opacity: 1;
+    }
 }
 
 .modal {
-  > .modal-dialog {
-    width: auto;
-    height: 100%;
-    margin: 0;
-    > .modal-content {
-      border: none;
-      background: none;
-      box-shadow: none;
-      border-radius: 0;
+    >.modal-dialog {
+        width: auto;
+        height: 100%;
+        margin: 0;
+        >.modal-content {
+            border: none;
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+        }
     }
-  }
 }
 
 @media (max-width: 767px) {
     .screen-lock {
         overflow: hidden;
     }
-
 }
 
 .ag-menu {
@@ -97,18 +99,18 @@ body {
 }
 
 .ag-header-cell {
-    background: blue;
+    background: $main-color;
     opacity: 0.7;
     color: white;
     text-transform: uppercase;
 }
 
 .ag-cell {
-    font-size: 13.4px; // border-right: 1px solid blue !important;
+    font-size: 13.4px; // border-right: 1px solid $main-color !important;
     text-align: center;
 }
 
-.ag-cell:first-child { 
+.ag-cell:first-child {
     // background-color: yellow;
 }
 
@@ -128,4 +130,3 @@ body {
     text-align: center !important;
     display: grid !important;
 }
-
