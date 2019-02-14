@@ -128,7 +128,11 @@ export interface RfFieldResourceList {
     validationFailedErrorMsg: string;
     continueInNextScreen: string;
     inputListToActionUrl: string;
+	actionUrl: string;
     initializeValue?: any;
+    dataTriggerMethod?: string;
+    stickyField?: boolean;
+    dataTriggerUrl?: string;
 }
 
 export interface ButtonResource {

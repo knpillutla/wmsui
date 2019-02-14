@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ListService } from '../services/list.service';
 import { LoaderService } from '../loader/loader.service';
-import { FieldList, ScreenResourceList, DataResource, RfScreenResourceList, SearchFieldList } from '../models/userdetails.model';
+import { FieldList, ScreenResourceList, DataResource, RfScreenResourceList, SearchFieldList, RecordActionList } from '../models/userdetails.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { GridModalComponent } from './grid-modal/grid-modal.component';
@@ -79,6 +79,17 @@ export class GridListComponent implements OnInit, OnChanges {
         }
       }
     });
+  }
+
+  IsActionPresent() {
+    if (this.DetailOptions.recordActionList && this.DetailOptions.recordActionList.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  ActionClicked(action: RecordActionList) {
+    alert(`Action ${action.actionName} is coming soon`);
   }
 
   CanWrite() {

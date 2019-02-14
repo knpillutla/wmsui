@@ -24,4 +24,15 @@ export class SignupService {
     const req = new HttpRequest('POST', urlToHit, payload, { headers: headers });
     return this.httpClient.request(req);
   }
+
+  UpdateUserData(payload) {
+    this.loader.show();
+    let urlToHit = environment.UpdateUserProfile;
+    urlToHit = urlToHit.replace('{id}', payload.id);
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json');
+    return this.httpClient.post(urlToHit, payload, { headers: headers, reportProgress: true }).map(x => x);
+  }
+
+
 }

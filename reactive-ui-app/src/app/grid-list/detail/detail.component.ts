@@ -75,7 +75,7 @@ export class DetailComponent implements OnInit, OnChanges {
       return;
     }
     this.errorMessage = undefined;
-    url = url.replace('{orderId}', id);
+	url = url.replace('{customerOrderId}', id);
     this.listservice.GetDataByUrl(url).subscribe(
       (data: any) => {
         if (data) {
@@ -128,7 +128,7 @@ export class DetailComponent implements OnInit, OnChanges {
     const initialState = {
       formTitle: 'Add New ' + this.title,
       Mode: 'Add',
-      URL: this.crudUrls.POST.replace('{orderId}', this.Id),
+      URL: this.crudUrls.POST.replace('{customerOrderId}', this.Id),
       AllFields: this.HeaderFieldList,
       AddFields: this.GridOptions.addResourceFieldList,
       Fields: [],
@@ -146,7 +146,7 @@ export class DetailComponent implements OnInit, OnChanges {
     const initialState = {
       formTitle: 'View ' + this.title,
       Mode: 'View',
-      URL: this.crudUrls.GET ? this.crudUrls.GET.replace('{orderId}', this.Id) : undefined,
+      URL: this.crudUrls.GET ? this.crudUrls.GET.replace('{customerOrderId}', this.Id) : undefined,
       AllFields: this.HeaderFieldList,
       ViewFields: this.GridOptions.viewResourceFieldList,
       Fields: [],
@@ -163,7 +163,7 @@ export class DetailComponent implements OnInit, OnChanges {
     const initialState = {
       formTitle: 'Edit ' + this.title,
       Mode: 'Edit',
-      URL: this.crudUrls.PUT.replace('{orderId}', this.Id),
+      URL: this.crudUrls.PUT.replace('{customerOrderId}', this.Id),
       AllFields: this.HeaderFieldList,
       EditFields: this.GridOptions.editResourceFieldList,
       Fields: [],
@@ -179,7 +179,7 @@ export class DetailComponent implements OnInit, OnChanges {
     const initialState = {
       formTitle: 'Delete ' + this.title + ' record - Id ' + this.selectedId,
       Mode: 'DELETE',
-      URL: this.crudUrls.DELETE.replace('{orderId}', this.Id).replace('{idd}', this.selectedId),
+      URL: this.crudUrls.DELETE.replace('{customerOrderId}', this.Id).replace('{idd}', this.selectedId),
       ConfirmButton: 'OK',
       CloseButton: 'Cancel',
       Id: this.selectedId,

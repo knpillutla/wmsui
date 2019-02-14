@@ -46,6 +46,7 @@ import { ConfigurationComponent } from './configuration/configuration.component'
 import { DynamicComponent } from './dynamic/dynamic.component';
 import { SearchComponent } from './search/search.component';
 import { RfDisplayComponent } from './rf-display/rf-display.component';
+import { OtherSettingsComponent } from './user-profile/other-settings/other-settings.component';
 
 // Configs
 export function getAuthServiceConfigs() {
@@ -91,7 +92,8 @@ export function getAuthServiceConfigs() {
     ConfigurationComponent,
     DynamicComponent,
     SearchComponent,
-    RfDisplayComponent
+    RfDisplayComponent,
+    OtherSettingsComponent
   ],
   imports: [
     BrowserModule,

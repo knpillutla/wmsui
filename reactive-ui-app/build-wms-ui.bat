@@ -1,5 +1,6 @@
-rem cd c:\neel\wms-git\reactiveui\reactive-ui-app
-call npm install
+call npm install 
+rem call npm install -g npm
 call npm audit fix
 call ng build --prod
 call docker build -t wms/wmsui .
+

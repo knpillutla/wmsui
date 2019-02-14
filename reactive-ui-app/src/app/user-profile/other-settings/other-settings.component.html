@@ -1,0 +1,59 @@
+<div class="maincontainer">
+  <div class="container passwordContent">
+
+    <label class="title">Change Password</label>
+    <hr>
+    <form class="form-horizontal" (ngSubmit)="onSubmitPassword()" #f="ngForm">
+      <div id="password-data" ngModelGroup="passwordGroupData" #passwordUserData="ngModelGroup">
+
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="oldPassword">Old Password</label>
+          <div class="col-sm-8">
+            <input type="password" [(ngModel)]="oldPassword" name="oldPassword" class="form-control" id="oldPassword">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="newPassword">New Password</label>
+          <div class="col-sm-8">
+            <input type="password" [(ngModel)]="newPassword" name="newPassword" class="form-control" id="newPassword">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="confirmPass">Confirm Password</label>
+          <div class="col-sm-8">
+            <input type="password" [(ngModel)]="confirmPass" name="confirmPass" class="form-control" id="confirmPass">
+          </div>
+        </div>
+
+      </div>
+      <span class="error" *ngIf="errormessage && errormessage.length > 0">{{errormessage}}</span>
+      <button class="submitButton" [disabled]="isDisabled()" type="submit">Update Password</button>
+
+
+    </form>
+  </div>
+  <hr>
+
+  <div class="container passwordContent">
+    <label class="title">Change Theme</label>
+    <hr>
+    <div>
+      <div class="theme" [ngStyle]="{'background':theme}" *ngFor="let theme of themes" (click)="ChangeUserTheme(theme)">
+        {{theme | uppercase}}
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="container passwordContent">
+
+    <label class="title">Change Menu Type</label>
+    <hr>
+    <button class="submitButton" (click)="ChangeMenuType('tab')">Tab</button>
+    <button class="submitButton" (click)="ChangeMenuType('dropdown')">Dropdown</button>
+
+  </div>
+</div>

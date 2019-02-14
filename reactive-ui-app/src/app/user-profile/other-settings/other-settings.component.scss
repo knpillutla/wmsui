@@ -1,0 +1,64 @@
+@import '../../../variables.scss';
+.maincontainer {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 51px;
+}
+
+.passwordContent {
+    text-align: center;
+    width: 100%;
+    padding: 0px 10px;
+}
+
+.title {
+    font-size: 20px;
+    color: $main-color;
+    margin: auto;
+    padding-top: 10px;
+}
+
+button {
+    border: 2px solid transparent;
+    cursor: pointer;
+    color: #fff;
+    padding: 5px;
+    margin: 2px;
+    font-size: 16px;
+    font-weight: 700;
+    min-width: 180px;
+    float: right;
+}
+
+hr {
+    margin: 8px 0px;
+}
+
+.submitButton {
+    background: $main-color;
+    opacity: 1;
+    color: #fff;
+}
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+    opacity: 0.6;
+}
+
+.theme {
+    width: calc(25% - 10px);
+    min-width: 50px;
+    height: 50px;
+    cursor: pointer;
+    margin: 5px;
+    float: left;
+    color: white;
+    padding: 15px 5px;
+}
+
+.menuButton {
+    min-width: 180px;
+}

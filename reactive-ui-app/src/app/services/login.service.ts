@@ -30,4 +30,25 @@ export class LoginService {
     const urlToHit = environment.loginurl;
     return this.httpClient.post(urlToHit, payload, { reportProgress: true }).map(x => x);
   }
+
+  UpdatePassword(payload) {
+    this.loader.show();
+    let urlToHit = environment.UpdatePasswordProfile;
+    urlToHit = urlToHit.replace('{id}', payload.id);
+    return this.httpClient.post(urlToHit, payload, { reportProgress: true }).map(x => x);
+  }
+
+  UpdateMenuType(payload) {
+    this.loader.show();
+    let urlToHit = environment.UpdateMenuProfile;
+    urlToHit = urlToHit.replace('{id}', payload.id);
+    return this.httpClient.post(urlToHit, payload, { reportProgress: true }).map(x => x);
+  }
+
+  UpdateTheme(payload) {
+    this.loader.show();
+    let urlToHit = environment.UpdateThemeProfile;
+    urlToHit = urlToHit.replace('{id}', payload.id);
+    return this.httpClient.post(urlToHit, payload, { reportProgress: true }).map(x => x);
+  }
 }

@@ -25,15 +25,13 @@
         <button *ngIf="ShouldDetailVisible() === true" [disabled]="ShouldDetailDisabled()" type="button" class="btn btn-primary"
           (click)="OpenDetails()">Details</button>
       </div>
-      <div class="dropdown" style="display: inline-flex;">
+      <div class="dropdown" style="display: inline-flex;" *ngIf="IsActionPresent()">
         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           Actions
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item">Action 1</a>
-          <a class="dropdown-item">Action 2</a>
-          <a class="dropdown-item">Action 3</a>
+          <a class="dropdown-item" *ngFor="let action of this.DetailOptions.recordActionList" (click)="ActionClicked(action)">{{action.actionDisplayName}}</a>
         </div>
       </div>
     </div>
