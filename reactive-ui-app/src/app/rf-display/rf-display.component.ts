@@ -30,15 +30,15 @@ export class RfDisplayComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(sc: SimpleChanges) {
-    if (sc && sc.RFOptions && sc.RFOptions.currentValue) {
+	  this.resetFieldValues();
 	  this.updateFieldValues();
-      const triggerField = this.MainFields.filter(x => x.dataTriggerUrl )[0];
-		  
-      // && x.dataTriggerMethod === 'POST'
-      console.log(triggerField);
       this.NextClicked();
       this.loader.hide();
-    }
+    //if (sc && sc.RFOptions && sc.RFOptions.currentValue) {
+	  //this.updateFieldValues();
+      //this.NextClicked();
+      //this.loader.hide();
+    //}
  }
 
   titleCharacterLength(char: any) {
@@ -49,31 +49,51 @@ export class RfDisplayComponent implements OnInit, OnChanges {
 	  console.log("NextClicked method: triggerFieldUrl exists:");
       if (lastfield && lastfield.dataTriggerUrl) {
 	    this.updateFieldValues();
-	    const localFieldJSONList = this.fieldDefaultValueJSON;
         const triggerField = lastfield;
-        const urlToHit = triggerField.dataTriggerUrl.replace('{userId}', this.userservices.GetUserDataFromSession().userId);
+        const urlToHit = this.replaceFieldValues(triggerField.dataTriggerUrl);
+		console.log("krishna field name:" + triggerField.fieldName);
+		console.log("krishna field value:" + triggerField.initializeValue);
+		if((triggerField.dataTriggerMethod && triggerField.dataTriggerMethod === "GET") || !triggerField.dataTriggerMethod){
+			console.log("Invoking get url:"+urlToHit);
+			this.rfservice.Get(urlToHit).subscribe(
+			  (triggerData) => {
+				console.log("get trigger data:" + JSON.stringify(triggerData));
+				this.rfTriggerData = triggerData;
+				this.NextClicked();
+				this.loader.hide();
+			  }, error => {
+				console.log(error);
+				this.resetFieldValues();
+				this.NextClicked();
+				this.loader.hide();
+				this.errormsg = triggerField.dataTriggerErrorMsg;
+		    });
+		}
+		else
+		{
+	    const localFieldJSONList = this.fieldDefaultValueJSON;
 		const inputListToActionUrl = triggerField.inputListToActionUrl;
 		const payload = { };
 		inputListToActionUrl.split(",").forEach(function (item) {
 			payload [item.split(":")[0]] = localFieldJSONList[item.split(":")[1]];
 		});
 		payload[triggerField.fieldName]=triggerField.initializeValue;
-		console.log("krishna field name:" + triggerField.fieldName);
-		console.log("krishna field value:" + triggerField.initializeValue);
 		  console.log("fieldDefaultValueJSON before post:" + JSON.stringify(this.fieldDefaultValueJSON));
-        this.rfservice.Post(urlToHit, payload).subscribe(
-          (triggerData) => {
-            console.log("my trigger data:" + triggerData);
-            this.rfTriggerData = triggerData;
-            this.NextClicked();
-            this.loader.hide();
-          }, error => {
-            console.log(error);
-			this.resetFieldValues();
-			this.NextClicked();
-            this.loader.hide();
-            this.errormsg = triggerField.dataTriggerErrorMsg;
-          });
+
+		this.rfservice.Post(urlToHit, payload).subscribe(
+			  (triggerData) => {
+				console.log("post trigger data:" + triggerData);
+				this.rfTriggerData = triggerData;
+				this.NextClicked();
+				this.loader.hide();
+			  }, error => {
+				console.log(error);
+				this.resetFieldValues();
+				this.NextClicked();
+				this.loader.hide();
+				this.errormsg = triggerField.dataTriggerErrorMsg;
+		    });
+		}
       }
 	  else
       if (lastfield && lastfield.actionUrl) {
@@ -90,7 +110,8 @@ export class RfDisplayComponent implements OnInit, OnChanges {
 		payload[actionField.fieldName]=actionField.initializeValue;
 		console.log("krishna action field name:" + actionField.fieldName);
 		console.log("krishna action field value:" + actionField.initializeValue);
-		  console.log("fieldDefaultValueJSON before post:" + JSON.stringify(this.fieldDefaultValueJSON));
+		console.log("fieldDefaultValueJSON before post:" + JSON.stringify(this.fieldDefaultValueJSON));
+        console.log("payload before post:" + JSON.stringify(payload));
         this.rfservice.Post(urlToHit, payload).subscribe(
           (triggerData) => {
             console.log("my trigger data:" + triggerData);
@@ -102,6 +123,7 @@ export class RfDisplayComponent implements OnInit, OnChanges {
 			this.NextClicked();
             this.loader.hide();
             this.errormsg = "error occured";
+            this.loader.hide();
           });
  		this.resetFieldValues();
       }
@@ -121,15 +143,15 @@ export class RfDisplayComponent implements OnInit, OnChanges {
 		}
 
 		if (!lastfield || canContinue) {
-		console.log("else block krishna field name is null, trackerindex:"+this.trackerIndex);
+		console.log("else block krishna, either field is null or field is label field up screen, trackerindex:"+this.trackerIndex);
 		  this.Fields = [];
 		  this.errormsg = undefined;
 		  const unhiddenFields = this.MainFields.filter(x => x.hideField !== 'Y');
 		  let loopThrouugh = false;
 		  while (loopThrouugh === false) {
-		console.log("while loop, trackerindex:"+this.trackerIndex);
+		  console.log("while loop, trackerindex:"+this.trackerIndex);
 			const nextField = unhiddenFields.slice(this.trackerIndex, this.trackerIndex + 1).shift();
-			console.log(nextField);
+			console.log("NextField:" + nextField.fieldName);
 
 			if (nextField.fieldType !== 'text') {
 			  nextField.initializeValue = this.rfTriggerData[nextField.fieldName];
@@ -141,6 +163,7 @@ export class RfDisplayComponent implements OnInit, OnChanges {
 			} else {
 			  this.ShowEndButtons = true;
 			}
+            console.log("while loop bottom, trackerindex:"+this.trackerIndex);
 			loopThrouugh = nextField.fieldType === 'text' ? true : false;
 			console.table(this.Fields, this.Fields.length);
 		  }
@@ -169,8 +192,30 @@ export class RfDisplayComponent implements OnInit, OnChanges {
   }
 
   ButtonClicked(button: ButtonResource) {
+	   const payload = { };
+       const urlToHit = this.replaceFieldValues(button.actionUrl);
+       const inputListToActionUrl = button.inputFieldListToActionUrl;
+	   const localFieldJSONList = this.fieldDefaultValueJSON;
+	   inputListToActionUrl.split(",").forEach(function (item) {
+			payload [item.split(":")[0]] = localFieldJSONList[item.split(":")[1]];
+		});
+		console.log("krishna button payload :" + JSON.stringify(payload));
     console.log('Button Clicked');
     console.log(button);
+		this.rfservice.Post(urlToHit, payload).subscribe(
+			  (triggerData) => {
+				console.log("post trigger data:" + triggerData);
+				//this.rfTriggerData = triggerData;
+				this.resetFieldValues();
+				this.NextClicked();
+				this.loader.hide();
+			  }, error => {
+				console.log(error);
+				//this.resetFieldValues();
+				//this.NextClicked();
+				//this.loader.hide();
+				this.errormsg = "error occured++++++++++++++++++++++++++++++++++++++++++++";
+		    });
 
   }
   
@@ -201,7 +246,7 @@ export class RfDisplayComponent implements OnInit, OnChanges {
   }
 
   resetFieldValues() {
-    console.log('updateField Values start');
+    console.log('resetFieldValues Values start');
        this.trackerIndex = 0;
       this.Buttons = this.RFOptions.buttonResources;
       console.log(this.Buttons);
@@ -220,6 +265,19 @@ export class RfDisplayComponent implements OnInit, OnChanges {
 		   }
         }
       });
-		console.log('updateField Values end:' + JSON.stringify(this.fieldDefaultValueJSON));
+		console.log('resetFieldValues Values end:' + JSON.stringify(this.fieldDefaultValueJSON));
   }
+  replaceFieldValues(url: any) : any {
+    console.log('start replaceFieldValues:' + url);
+      this.Buttons = this.RFOptions.buttonResources;
+      console.log(this.Buttons);
+      this.MainFields = this.RFOptions.rfFieldResourceList;
+      // this.Fields = this.RFOptions.rfFieldResourceList;
+      this.MainFields.forEach(element => {
+		  url = url.replace('{'+element.fieldName+'}', element.initializeValue);
+      });
+    console.log('end  replaceFieldValues:' + url);
+	return url;
   }
+
+}

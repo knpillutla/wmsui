@@ -1,0 +1,38 @@
+<div class="maincontainer">
+  <div class="container content">
+    <div style="display: inline-grid;">
+      <label class="title">WMS Test</label>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #f="ngForm">
+      <div id="wmstest-data" ngModelGroup="wmstestData" #wmstestData="ngModelGroup">
+        <div class="fillinTitle"> Enter Test Details </div>
+
+        <div class="form-group">
+          <label for="numOfOrders">Num of Orders</label>
+          <input type="number" name="numOfOrders" ngModel class="form-control" id="numOfOrders">
+        </div>
+        <div class="form-group">
+          <label for="numOfLines">Num of Lines</label>
+          <input type="number" name="numOfLines" ngModel class="form-control" id="numOfLines">
+        </div>
+        <div class="form-group">
+          <label for="numOfLineAttribs">Num of Line Attributes</label>
+          <input type="number" name="numOfLineAttribs" ngModel class="form-control" id="numOfLineAttribs">
+        </div>
+        <div class="form-group">
+          <label for="releaseOrders">Auto Release Orders</label>
+          <input type="checkbox" name="releaseOrders" ngModel class="form-control" id="releaseOrders">
+        </div>
+        <div class="form-group">
+          <label for="runEndToEndTest">Run End to End Test</label>
+          <input type="checkbox" name="runEndToEndTest" ngModel class="form-control" id="runEndToEndTest">
+        </div>
+      </div>
+      <span class="error" *ngIf="errormessage && errormessage.length > 0">{{errormessage}}</span>
+      <button class="submitButton" [disabled]="!f.valid" type="submit">Execute</button>
+
+
+    </form>
+  </div>
+</div>

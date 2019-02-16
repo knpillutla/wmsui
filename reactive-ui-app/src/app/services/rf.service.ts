@@ -26,6 +26,13 @@ export class RfService {
 
   }
 
+  // Update based upon id
+  Get(url) {
+    console.log("get url:" + url);
+    this.loader.show();
+    return this.httpClient.get(url, { reportProgress: true }).map(x => x);
+  }
+
   /*
   // get user details based upon login id
   Get(url, parentid, dtlId = '') {

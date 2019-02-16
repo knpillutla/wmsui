@@ -6,6 +6,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuards } from './auth-guards.services';
 import { SignupComponent } from './signup/signup.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { WmsTestComponent } from './wmstest/wmstest.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DynamicComponent } from './dynamic/dynamic.component';
@@ -18,7 +19,8 @@ const appRoutes: Routes = [
             { path: 'dynamic', component: DynamicComponent },
             { path: 'dashboard', component: DashboardComponent },
             { path: 'profile', component: UserProfileComponent },
-            { path: 'config', component: ConfigurationComponent }
+            { path: 'config', component: ConfigurationComponent },
+            { path: 'wmstest', component: WmsTestComponent },
         ]
     },
     // { path: 'landing', canActivate: [AuthGuards], component: LandingpageComponent },

@@ -20,6 +20,7 @@ import {
   FacebookLoginProvider
 } from 'angular-6-social-login';
 import { UserService } from './services/user.service';
+import { WmsTestService } from './services/wmstest.service';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoaderComponent } from './loader/loader.component';
 import { LoaderService } from './loader/loader.service';
@@ -42,6 +43,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { environment } from '../environments/environment';
 import { DetailComponent } from './grid-list/detail/detail.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { WmsTestComponent } from './wmstest/wmstest.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { DynamicComponent } from './dynamic/dynamic.component';
 import { SearchComponent } from './search/search.component';
@@ -89,6 +91,7 @@ export function getAuthServiceConfigs() {
     DashboardComponent,
     DetailComponent,
     UserProfileComponent,
+    WmsTestComponent,
     ConfigurationComponent,
     DynamicComponent,
     SearchComponent,
@@ -112,7 +115,7 @@ export function getAuthServiceConfigs() {
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs
-    }, UserService, LoaderService, AuthGuards, AuthServices, AppConstants, LoginService, ListService, GridService
+    }, WmsTestService,UserService, LoaderService, AuthGuards, AuthServices, AppConstants, LoginService, ListService, GridService
   ],
   entryComponents: [GridModalComponent, ConfirmModalComponent, DetailsModalComponent, DetailComponent],
   bootstrap: [AppComponent]

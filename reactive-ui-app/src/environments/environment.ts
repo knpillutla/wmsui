@@ -13,7 +13,9 @@ export const environment = {
   UpdateUserProfile: 'https://the3dsoft.com/users/v1/user/id/{id}',
   UpdateThemeProfile: 'https://the3dsoft.com/users/v1/user/theme/id/{id}',
   UpdatePasswordProfile: 'https://the3dsoft.com/users/v1/user/authtoken/id/{id}',
-  UpdateMenuProfile: 'https://the3dsoft.com/users/v1/user/menutype/id/{id}'
+  UpdateMenuProfile: 'https://the3dsoft.com/users/v1/user/menutype/id/{id}',
+  createOrderUrl: 'https://the3dsoft.com/wmse2e/api/wms-tests/createOrders',
+  endToEndTestUrl: 'https://the3dsoft.com/wmse2e/api/wms-tests'
 
 };
 
