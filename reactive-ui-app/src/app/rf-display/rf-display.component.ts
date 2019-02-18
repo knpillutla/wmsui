@@ -98,7 +98,7 @@ export class RfDisplayComponent implements OnInit, OnChanges {
 	  else
       if (lastfield && lastfield.actionUrl) {
         const actionField = lastfield;
-        const urlToHit = actionField.actionUrl.replace('{userId}', this.userservices.GetUserDataFromSession().userId);
+        const urlToHit = this.replaceFieldValues(lastfield.actionUrl);
 		const inputListToActionUrl = actionField.inputListToActionUrl;
 		const payload = { };
 	    this.updateFieldValues();
